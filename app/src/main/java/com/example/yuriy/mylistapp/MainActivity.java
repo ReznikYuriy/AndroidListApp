@@ -15,37 +15,33 @@ public class MainActivity extends Activity {
     final String ATTRIBUTE_NAME_TEXT = "text";
     final String ATTRIBUTE_NAME_CHECKED = "checked";
     final String ATTRIBUTE_NAME_IMAGE = "image";
+    final String ATTRIBUTE_NAME_GROUP = "group";
 
     ListView lvSimple;
-
+    ArrayList<Student> studList = new ArrayList<Student>();
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // массивы данных
-        String[] texts = { "sometext 1", "sometext 2", "sometext 3",
-                "sometext 4", "sometext 5" };
-        boolean[] checked = { true, false, false, true, false };
-        int img = R.drawable.female;
-
+        fillData();
         // упаковываем данные в понятную для адаптера структуру
         ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>(
-                texts.length);
+                studList.size());
         Map<String, Object> m;
-        for (int i = 0; i < texts.length; i++) {
+        for (Student s: studList) {
             m = new HashMap<String, Object>();
-            m.put(ATTRIBUTE_NAME_TEXT, texts[i]);
-            m.put(ATTRIBUTE_NAME_CHECKED, checked[i]);
-            m.put(ATTRIBUTE_NAME_IMAGE, img);
+            m.put(ATTRIBUTE_NAME_TEXT, s.name);
+            m.put(ATTRIBUTE_NAME_CHECKED, s.isChecked);
+            m.put(ATTRIBUTE_NAME_IMAGE, s.image);
+            m.put(ATTRIBUTE_NAME_GROUP, s.group);
             data.add(m);
         }
 
         // массив имен атрибутов, из которых будут читаться данные
         String[] from = { ATTRIBUTE_NAME_TEXT, ATTRIBUTE_NAME_CHECKED,
-                ATTRIBUTE_NAME_IMAGE };
+                ATTRIBUTE_NAME_IMAGE, ATTRIBUTE_NAME_GROUP };
         // массив ID View-компонентов, в которые будут вставлять данные
-        int[] to = { R.id.tvName, R.id.cbChecked, R.id.ivImg };
+        int[] to = { R.id.tvName, R.id.cbChecked, R.id.ivImg, R.id.tvGroup };
 
         // создаем адаптер
         SimpleAdapter sAdapter = new SimpleAdapter(this, data, R.layout.item,
@@ -55,4 +51,10 @@ public class MainActivity extends Activity {
         lvSimple = (ListView) findViewById(R.id.lvSimple);
         lvSimple.setAdapter(sAdapter);
     }
+    void fillData() {
+        studList.add(new Student("Marya", "PP-2709", R.drawable.female, false));
+        studList.add(new Student("Marya", "PP-2709", R.drawable.female, false));
+        studList.add(new Student("Marya", "PP-2709", R.drawable.female, false));
+        studList.add(new Student("Marya", "PP-2709", R.drawable.female, false));
+        }
 }
